@@ -1,0 +1,191 @@
+#include <stdio.h>
+#include<stdlib.h>
+struct node 
+{
+    struct node *prev;
+    int data;
+    struct node *next;
+}*t,*n;
+struct node *head=NULL;
+struct node *tail=NULL;
+void create()
+{
+    int c,val;
+    do
+    {
+        n=(struct node*)malloc(sizeof(struct node));
+        printf("enter the value");
+        scanf("%d",&val);
+        n->data=val;
+        n->prev=NULL;
+        n->next=NULL;
+        if(head==NULL)
+        {
+            head=n;
+            tail=n;
+        }
+        else
+        {
+            tail->next=n;
+            n->prev=tail;
+            tail=n;
+        }
+        printf("enter 1 to continue 0 to exit");
+        scanf("%d",&c);
+    }while(c==1);
+}
+void display()
+{
+    t=head;
+    while(t->next!=NULL)
+    {
+        printf("%d",t->data);
+        t=t->next;
+    }
+    printf("%d\n",t->data);
+}
+void insert_at_beg()
+{
+    int val;
+    n=(struct node*)malloc(sizeof(struct node));
+    printf("enter value to insert at beginng");
+    scanf("%d",&val);
+    n->data=val;
+    n->next=head;
+    head->prev=n;
+    n->prev=NULL;
+    head=n; 
+}
+void insert_at_end()
+{
+    int val;
+    n=(struct node*)malloc(sizeof(struct node));
+    printf("enter the value to insert at end");
+    scanf("%d",&val);
+    n->data=val;
+    n->next=NULL;
+    n->prev=tail;
+    tail->next=n;
+    tail=n;                                                                 
+    
+}
+void insert_at_pos()
+{
+    int val,pos;
+    n=(struct node*)malloc(sizeof(struct node));
+    printf("enter the value");
+    scanf("%d",&val);
+    printf("enter the position where the elemnt should be inserted");
+    scanf("%d",&pos);
+    t=head;
+    for(int i=1;i<pos-1;i++)
+    {
+        t=t->next;
+    }
+    n->data=val;
+    n->next=t->next;
+    t->next->prev=n;
+    t->next=n;
+    n->prev=t;
+}
+void delete_at_beg()
+{
+    t=head;
+    head=head->next;
+    t->next=NULL;
+    head->prev=NULL;
+}
+void delete_at_end()
+{
+    t=tail;
+    tail=tail->prev;
+    t->prev=NULL;
+    tail->next=NULL;
+}
+void delete_at_pos()
+{
+    int pos;
+    printf("enter the position where the elemnt should be deleted");
+    scanf("%d",&pos);
+    t=head;
+    for(int i=1;i<pos-1;i++)
+    {
+        t=t->next;
+    }
+    t->next->next->prev=t;
+    t->next=t->next->next;
+}
+void length()
+{
+    int c=0;
+    t=head;
+    while(t!=NULL)
+    {
+        c=c+1;
+        t=t->next;
+    }
+    printf("%d",c);
+}
+void main()
+{
+    int c,m;
+    create();
+    display();
+    printf("enter you choice\n 1.insertion\n 2.deletion\n 3.lenggth\n");
+    scanf("%d",&c);
+    switch(c)
+    {
+        case 1: printf("enter your choice\n 1.at beginning \n 2.at ending \n 3.at specified position");
+                scanf("%d",&m);
+                if(m==1)
+                {
+                    printf("------ Insertion at beginning-----");
+                    insert_at_beg();
+                    display();
+                   
+                }
+                if(m==2)
+                {
+                    printf("------ Insertion at ending-----");
+                    insert_at_end();
+                    display();
+                 
+                }
+                if(m==3)
+                {
+                     printf("------ Insertion at specified position-----");
+                     insert_at_pos();
+                     display();
+                    
+                }
+                break;
+        case 2: printf("\nenter your choice \n 1.at beginning \n 2.at ending \n 3.at specified position");
+                scanf("%d",&m);
+                if(m==1)
+                {
+                    printf("------ Deletion at begginning-----");
+                    delete_at_beg();
+                    display();
+                   
+                }
+                if(m==2)
+                {
+                    printf("------ Deletion  at ending-----");
+                    delete_at_end();
+                    display();
+                    
+                }
+                if(m==3)
+                {
+                    printf("-------Deletion at specified position-----");
+                    delete_at_pos();
+                    display();
+                    
+                }
+                break;
+        case 3: printf(" the length of the list is:");
+                length();
+                break;
+        default:printf(" xxxxxxxxxxxx   enter a valid number   XXXXXXXX");
+    }
+}
